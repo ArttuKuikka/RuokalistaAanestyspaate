@@ -1,0 +1,8 @@
+{
+    "base_url": "https://",
+    "aanestys_url": "/api/v1/Aanestys/Aanesta",
+    "webhook_url": "https://",
+    "user": "",
+    "password": "",
+    "Token": ""
+}
