@@ -4,21 +4,21 @@ import json
 import sys
 import datetime
 from os.path import exists
-import RPi.GPIO as GPI
+import RPi.GPIO as GPIO
 
 def aanesta(url, token, taso):
     useSsl = True
     #debug aikana älä käytä ssl
-    if sys.gettrace() is not None:
+    if sys.gettrace() != None:
         useSsl = False
 
     headers = {'Authorization': 'Bearer ' + token}
     response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
-    if(response.status_code is not 200):
+    if(response.status_code != 200):
         raise Exception(f"HTTP status code exception: code {str(response.status_code)}. response: {str(response.content)}")
     
-    if(response.status_code is 200):
+    if(response.status_code == 200):
         print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
 
 

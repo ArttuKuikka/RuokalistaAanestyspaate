@@ -13,7 +13,7 @@ newToken = ""
 
 useSsl = True
     #debug aikana älä käytä ssl
-if sys.gettrace() is not None:
+if sys.gettrace() != None:
     useSsl = False
 
 
@@ -21,7 +21,7 @@ content = {'id': 0, 'username': config["user"], 'password': config["password"]}
 headers = {'Content-type': 'application/json'}
 response = requests.post(config["base_url"] + "/api/Authenticate/login", headers=headers, json=content, verify=useSsl)
 
-if(response.status_code is not 200):
+if(response.status_code != 200):
     msg = f"Error while refreshing token: code:{response.status_code} content: {response.content}"
     #webhook error
     raise Exception(msg)
