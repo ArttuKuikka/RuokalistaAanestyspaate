@@ -7,14 +7,11 @@ from os.path import exists
 from gpiozero import Button
 from signal import pause
 
+useSsl = True
+
 def aanesta(url, token, taso):
     print(f"taso {taso} nappia painettu")
-    useSsl = True
-    #debug aikana älä käytä ssl
-    #if sys.gettrace() != None:
-    #    useSsl = False
-    useSsl = False
-
+   
     headers = {'Authorization': 'Bearer ' + token}
     response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
@@ -47,6 +44,7 @@ if __name__ == "__main__":
         config = json.load(f)
 
     webhookurl = config["webhook_url"]
+    useSsl = config["use_ssl"]
 
     try:
         äänestys_url = str(config["base_url"]) + str(config["aanestys_url"])

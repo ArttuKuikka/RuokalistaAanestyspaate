@@ -11,15 +11,12 @@ with open('config.json', 'r') as f:
 
 newToken = ""
 
-useSsl = True
-    #debug aikana älä käytä ssl
-if sys.gettrace() != None:
-    useSsl = False
+
 
 
 content = {'id': 0, 'username': config["user"], 'password': config["password"]}
 headers = {'Content-type': 'application/json'}
-response = requests.post(config["base_url"] + "/api/Authenticate/login", headers=headers, json=content, verify=useSsl)
+response = requests.post(config["base_url"] + "/api/Authenticate/login", headers=headers, json=content, verify=config["use_ssl"])
 
 if(response.status_code != 200):
     msg = f"Error while refreshing token: code:{response.status_code} content: {response.content}"

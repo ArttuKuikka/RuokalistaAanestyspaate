@@ -1,5 +1,6 @@
 {
     "base_url": "https://",
+    "use_ssl": true,
     "aanestys_url": "/api/v1/Aanestys/Aanesta",
     "webhook_url": "https://",
     "user": "",
