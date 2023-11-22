@@ -25,8 +25,18 @@ def aanesta(url, token, taso):
 
 def main(url, token):
    
-    button = Button(18)
-    button.when_pressed = lambda: aanesta(url, token, 1)
+    red_button = Button(18)
+    red_button.when_pressed = lambda: aanesta(url, token, 1)
+
+    light_red_button = Button(23)
+    light_red_button.when_pressed = lambda: aanesta(url, token, 2)
+
+    light_green_button = Button(24)
+    light_green_button.when_pressed = lambda: aanesta(url, token, 3)
+
+    green_button = Button(25)
+    green_button.when_pressed = lambda: aanesta(url, token, 4)
+    
     pause()
 
     
