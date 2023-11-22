@@ -11,8 +11,9 @@ def aanesta(url, token, taso):
     print(f"taso {taso} nappia painettu")
     useSsl = True
     #debug aikana älä käytä ssl
-    if sys.gettrace() != None:
-        useSsl = False
+    #if sys.gettrace() != None:
+    #    useSsl = False
+    useSsl = False
 
     headers = {'Authorization': 'Bearer ' + token}
     response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
