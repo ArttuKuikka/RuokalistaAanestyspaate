@@ -3,6 +3,7 @@ import json
 import sys
 import requests
 import subprocess
+from discord_webhook import DiscordWebhook
 
 config = ""
 with open('config.json', 'r') as f:
@@ -20,7 +21,8 @@ response = requests.post(config["base_url"] + "/api/Authenticate/login", headers
 
 if(response.status_code != 200):
     msg = f"Error while refreshing token: code:{response.status_code} content: {response.content}"
-    #webhook error
+    webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (updateToken): " + str(msg))
+    webhook.execute()
     raise Exception(msg)
         
 

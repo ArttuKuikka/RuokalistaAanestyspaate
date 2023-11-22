@@ -6,6 +6,7 @@ import datetime
 from os.path import exists
 from gpiozero import Button
 from signal import pause
+from discord_webhook import DiscordWebhook
 
 useSsl = True
 
@@ -53,4 +54,5 @@ if __name__ == "__main__":
     
     except Exception as e:
         print("error: " + str(e))
-        #webhook error code
+        webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main): " + str(e))
+        webhook.execute()
