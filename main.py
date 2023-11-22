@@ -8,6 +8,7 @@ from gpiozero import Button
 from signal import pause
 
 def aanesta(url, token, taso):
+    print(f"taso {taso} nappia painettu")
     useSsl = True
     #debug aikana älä käytä ssl
     if sys.gettrace() != None:
