@@ -54,16 +54,16 @@ def main(url, token):
     #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
     from gpiozero import Button
     from signal import pause
-    red_button = Button(18)
+    red_button = Button(6)
     red_button.when_pressed = lambda: aanesta(url, token, 1)
 
-    light_red_button = Button(23)
+    light_red_button = Button(13)
     light_red_button.when_pressed = lambda: aanesta(url, token, 2)
 
-    light_green_button = Button(24)
+    light_green_button = Button(19)
     light_green_button.when_pressed = lambda: aanesta(url, token, 3)
 
-    green_button = Button(25)
+    green_button = Button(26)
     green_button.when_pressed = lambda: aanesta(url, token, 4)
 
     pause()
