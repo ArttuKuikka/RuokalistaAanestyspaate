@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
+from time import sleep
 
 hostName = "0.0.0.0"
 serverPort = 80
@@ -80,6 +81,7 @@ def aanesta(url, token, taso):
             taso3 += 1
         elif taso == 4:
             taso4 += 1
+        sleep(50)
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
