@@ -7,6 +7,7 @@ from os.path import exists
 from gpiozero import Button
 from signal import pause
 from discord_webhook import DiscordWebhook
+from time import sleep
 
 useSsl = True
 
@@ -21,6 +22,7 @@ def aanesta(url, token, taso):
     
     if(response.status_code == 200):
         print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
+    sleep(0.8)
 
 
 def main(url, token):
