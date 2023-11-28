@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
+import threading
 
 
 hostName = "0.0.0.0"
@@ -81,7 +81,7 @@ def aanesta(url, token, taso):
 
 
 
-if __name__ == "__main__":        
+if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
@@ -92,12 +92,18 @@ if __name__ == "__main__":
     except Exception:
         print("wlan0 is not accessable")
 
+    # Create a new thread for the webserver function
+    webserver_thread = threading.Thread(target=webServer.serve_forever)
+
+    # Start the webserver thread
+    webserver_thread.start()
+
+    # Call the main function in the main thread
     main("url", "token")
 
-    try:
-        webServer.serve_forever()
-    except KeyboardInterrupt:
-        pass
+    # Wait for the webserver thread to finish
+    webserver_thread.join()
 
+    # Close the webserver
     webServer.server_close()
     print("Server stopped.")
