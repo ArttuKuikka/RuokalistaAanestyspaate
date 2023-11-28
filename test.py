@@ -92,6 +92,7 @@ if __name__ == "__main__":
     except Exception:
         print("wlan0 is not accessable")
 
+    main("url", "token")
 
     try:
         webServer.serve_forever()
