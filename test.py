@@ -1,9 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 
-
 hostName = "0.0.0.0"
 serverPort = 80
+taso_lock = threading.Lock()
 taso1, taso2, taso3, taso4 = 0, 0, 0, 0
 
 def changeLed(path: str):
@@ -18,8 +18,8 @@ def changeLed(path: str):
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+        global taso1, taso2, taso3, taso4
 
-        global taso1
         if self.path.startswith("/led"):
             changeLed(self.path)
         self.send_response(200)
@@ -50,10 +50,8 @@ class MyServer(BaseHTTPRequestHandler):
         """, "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
 
-
 def main(url, token):
-   
-    #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
+     #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
     from gpiozero import Button
     from signal import pause
     red_button = Button(6)
@@ -71,18 +69,17 @@ def main(url, token):
     pause()
 
 def aanesta(url, token, taso):
-    global taso1
-    print(f"testi äänestetty, TASO:{taso} URL:{url} TOKEN:{token}")
-    if taso == 1:
-        taso1 + 1
-    elif taso == 2:
-        taso2 + 1
-    elif taso == 3:
-        taso3 + 1
-    elif taso == 4:
-        taso4 + 1
-
-
+    global taso1, taso2, taso3, taso4
+    with taso_lock:
+        print(f"testi äänestetty, TASO:{taso} URL:{url} TOKEN:{token}")
+        if taso == 1:
+            taso1 += 1
+        elif taso == 2:
+            taso2 += 1
+        elif taso == 3:
+            taso3 += 1
+        elif taso == 4:
+            taso4 += 1
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
