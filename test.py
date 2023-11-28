@@ -25,7 +25,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(bytes("<html><head><title>Ruokalistaäänestys</title></head>", "utf-8"))
+        self.wfile.write(bytes("<html><head><title>Ruokalistaäänestys</title><meta charset=\"utf-8\"></head>", "utf-8"))
         
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes(f""" 
