@@ -18,6 +18,8 @@ def changeLed(path: str):
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+
+        global taso1
         if self.path.startswith("/led"):
             changeLed(self.path)
         self.send_response(200)
