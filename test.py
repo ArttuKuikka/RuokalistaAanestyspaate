@@ -71,6 +71,7 @@ def main(url, token):
     pause()
 
 def aanesta(url, token, taso):
+    global taso1
     print(f"testi äänestetty, TASO:{taso} URL:{url} TOKEN:{token}")
     if taso == 1:
         taso1 + 1
