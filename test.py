@@ -81,7 +81,7 @@ def aanesta(url, token, taso):
             taso3 += 1
         elif taso == 4:
             taso4 += 1
-        sleep(1)
+        sleep(0.8)
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
