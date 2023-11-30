@@ -72,7 +72,7 @@ def main(url, token):
 def aanesta(url, token, taso):
     global taso1, taso2, taso3, taso4
     with taso_lock:
-        print(f"testi äänestetty, TASO:{taso} URL:{url} TOKEN:{token}")
+        print(f"testi äänestetty, TASO:{taso} ")
         if taso == 1:
             taso1 += 1
         elif taso == 2:
