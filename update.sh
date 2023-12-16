@@ -1,7 +1,7 @@
 #!/bin/bash
 user_home_dir=~
 file_name=config.json
-github_release_download_url="https://api.github.com/repos/ArttuKuikka/RuokalistaAanestyspaate/zipball/Release"
+github_release_download_url="https://api.github.com/repos/ArttuKuikka/RuokalistaAanestyspaate/zipball/"
 
 #Copy config to a safe place
 echo "Copying $file_name to $user_home_dir"
