@@ -1,0 +1,17 @@
+name: Update on new release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  run_script:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run shell script
+        run: |
+          cd /home/administrator/RuokalistaAanestyspaate/ && bash /home/administrator/RuokalistaAanestyspaate/update.sh
