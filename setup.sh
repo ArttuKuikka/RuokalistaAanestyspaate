@@ -33,8 +33,8 @@ fi
 #Ensure depencies
 echo "Installing depencies"
 sudo apt update
-sudo apt upgrade
-sudo apt install python3 wget unzip python3-pip
+sudo apt upgrade -y
+sudo apt install -y python3 wget unzip python3-pip
 pip3 install requests gpiozero discord_webhook
 
 
