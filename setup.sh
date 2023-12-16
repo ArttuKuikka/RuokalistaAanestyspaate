@@ -75,9 +75,9 @@ echo "Adding Uptime cronjob"
 #add permissions for everyone to start and stop the service
 # Add an entry to sudoers file using visudo
 echo "Adding entries to sudoers file..."
-echo "ALL ALL=(ALL) NOPASSWD: sudo systemctl start ruokalista-aanestyspaate.service" >> /etc/sudoers
-echo "ALL ALL=(ALL) NOPASSWD: sudo systemctl stop ruokalista-aanestyspaate.service" >> /etc/sudoers
-echo "ALL ALL=(ALL) NOPASSWD: sudo systemctl status ruokalista-aanestyspaate.service" >> /etc/sudoers
+echo "ALL ALL=(ALL) NOPASSWD: /bin/sudo systemctl start ruokalista-aanestyspaate.service" >> /etc/sudoers
+echo "ALL ALL=(ALL) NOPASSWD: /bin/sudo systemctl stop ruokalista-aanestyspaate.service" >> /etc/sudoers
+echo "ALL ALL=(ALL) NOPASSWD: /bin/sudo systemctl status ruokalista-aanestyspaate.service" >> /etc/sudoers
 
 # Check for any syntax errors in the sudoers file
 echo "Checking sudoers file for syntax errors..."
