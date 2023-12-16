@@ -36,6 +36,10 @@ echo "Installing depencies"
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y python3 wget unzip python3-pip
+
+echo "installing pip3 depencies"
+
+sudo rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
 pip3 install requests gpiozero discord_webhook
 
 
