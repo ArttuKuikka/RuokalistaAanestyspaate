@@ -28,7 +28,7 @@ unzip Release.zip
 pattern="ArttuKuikka-RuokalistaAanestyspaate-*"
 
 # Find the first folder matching the pattern
-matching_folder=$(find "$directory_path" -type d -name "$pattern" -print -quit)
+matching_folder=$(find -type d -name "$pattern" -print -quit)
 
 #copy contents of unzipped file 
 cp $matching_folder/* .
