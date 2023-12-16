@@ -1,3 +1,3 @@
 # RuokalistaAanestyspaate
 
-Isonkyrön koulussa olevan fyysisen äänestyspäätteen koodi
+Isonkyrön koulussa olevan fyysisen äänestyspäätteen koodi.
