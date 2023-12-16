@@ -13,6 +13,7 @@ fi
 
 #ask if config is set
 echo "If config.json hasn't been set, now is a good time to do so"
+echo "Continue (Y/N):"
 
 read response
 
