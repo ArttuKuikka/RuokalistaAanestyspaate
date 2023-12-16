@@ -42,6 +42,8 @@ rm -rf Release.zip
 echo "Copying config back"
 cp $user_home_dir/$file_name $current_directory/$file_name
 
+chmod +x *
+
 #start the services
 sudo systemctl start ruokalista-aanestyspaate.service
 

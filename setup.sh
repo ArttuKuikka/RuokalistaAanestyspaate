@@ -1,5 +1,6 @@
 #!/bin/bash
 #The first time setup script
+chmod +x *
 
 # Check if the script is being run as root
 if [ "$(id -u)" -eq 0 ]; then
