@@ -2,6 +2,7 @@
 user_home_dir=~
 file_name=config.json
 github_release_download_url="https://api.github.com/repos/ArttuKuikka/RuokalistaAanestyspaate/zipball/"
+current_directory=$(pwd)
 
 #Copy config to a safe place
 echo "Copying $file_name to $user_home_dir"
@@ -39,7 +40,7 @@ rm -rf Release.zip
 
 #Copy config back
 echo "Copying config back"
-cp $user_home_dir $file_name
+cp $user_home_dir/$file_name $current_directory/$file_name
 
 #start the services
 sudo systemctl start ruokalista-aanestyspaate.service
