@@ -37,6 +37,10 @@ cp $matching_folder/* .
 rm -rf $matching_folder/
 rm -rf Release.zip
 
+#Copy config back
+echo "Copying config back"
+cp $user_home_dir $file_name
+
 #start the services
 sudo systemctl start ruokalista-aanestyspaate.service
 
