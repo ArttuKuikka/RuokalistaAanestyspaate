@@ -10,19 +10,22 @@ from discord_webhook import DiscordWebhook
 from time import sleep
 
 useSsl = True
+cooldown = 0
 
 def aanesta(url, token, taso):
     print(f"taso {taso} nappia painettu")
    
-    headers = {'Authorization': 'Bearer ' + token}
-    response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
+    if cooldown <= 0:
+        headers = {'Authorization': 'Bearer ' + token}
+        response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
-    if(response.status_code != 200):
-        raise Exception(f"HTTP status code exception: code {str(response.status_code)}. response: {str(response.content)}")
-    
-    if(response.status_code == 200):
-        print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
-    sleep(0.8)
+        if(response.status_code != 200):
+            raise Exception(f"HTTP status code exception: code {str(response.status_code)}. response: {str(response.content)}")
+        
+        if(response.status_code == 200):
+            print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
+    else:
+        print(f'Cooldownia jäljellä {cooldown}s')
 
 
 def main(url, token):
