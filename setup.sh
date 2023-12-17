@@ -53,6 +53,7 @@ cat >/etc/systemd/system/ruokalista-aanestyspaate.service <<EOL
 Description=ruokalista-aanestyspaate
 
 [Service]
+WorkingDirectory=${current_directory}
 ExecStart=python3 ${current_directory}/main.py
 Restart=on-failure
 RestartSec=100
