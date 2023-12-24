@@ -40,7 +40,7 @@ class ButtonPressHandler:
                 print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
 
 
-    def aanesta(url, token, taso):
+    def aanesta(self, url, token, taso):
         headers = {'Authorization': 'Bearer ' + token}
         response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
