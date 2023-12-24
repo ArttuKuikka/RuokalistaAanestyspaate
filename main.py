@@ -26,7 +26,10 @@ class ButtonPressHandler:
             self.last_press_time = current_time
             self.press_count = 1
             print("Äänestetään!")
-            self.aanesta(url, token, taso)
+            try:
+                self.aanesta(url, token, taso)
+            except Exception as ex:
+                print("Äänestys error: " + str(ex))
 
         else:
             # Increment press count if within the time window
