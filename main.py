@@ -11,7 +11,8 @@ from time import sleep
 import time
 
 useSsl = True
-
+# Variable to track if button presses should be ignored
+ignore_button_press = False
 
 class ButtonPressHandler:
     def __init__(self):
@@ -19,29 +20,33 @@ class ButtonPressHandler:
         self.press_count = 0
 
     def handle_button_press(self, url, token, taso):
-        current_time = time.time()
+        global ignore_button_press
+        if not ignore_button_press:
+            current_time = time.time()
+            ignore_button_press = True
+            # Check if the button can be pressed based on time elapsed
+            if current_time - self.last_press_time >= 3:
+                self.last_press_time = current_time
+                self.press_count = 1
+                print("Äänestetään! taso:" + str(taso))
+                try:
+                    self.aanesta(url, token, taso)
+                except Exception as ex:
+                    print("Äänestys error: " + str(ex))
 
-        # Check if the button can be pressed based on time elapsed
-        if current_time - self.last_press_time >= 3:
-            self.last_press_time = current_time
-            self.press_count = 1
-            print("Äänestetään! taso:" + str(taso))
-            try:
-                self.aanesta(url, token, taso)
-            except Exception as ex:
-                print("Äänestys error: " + str(ex))
-
-        else:
-            # Increment press count if within the time window
-            self.press_count += 1
-            if self.press_count > 5:
-                print("Exceeded maximum presses. Sleeping for 10 seconds")
-                time.sleep(10)
-                self.last_press_time = time.time()
-                self.press_count = 0
             else:
-                print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
-        sleep(0.8)
+                # Increment press count if within the time window
+                self.press_count += 1
+                if self.press_count > 5:
+                    print("Exceeded maximum presses. Sleeping for 10 seconds")
+                    time.sleep(10)
+                    self.last_press_time = time.time()
+                    self.press_count = 0
+                else:
+                    print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
+            sleep(1)
+            ignore_button_press = False
+        
 
 
     def aanesta(self, url, token, taso):
