@@ -8,14 +8,39 @@ from gpiozero import Button
 from signal import pause
 from discord_webhook import DiscordWebhook
 from time import sleep
+import time
 
 useSsl = True
-cooldown = 0
 
-def aanesta(url, token, taso):
-    print(f"taso {taso} nappia painettu")
-   
-    if cooldown <= 0:
+
+class ButtonPressHandler:
+    def __init__(self):
+        self.last_press_time = 0
+        self.press_count = 0
+
+    def handle_button_press(self, url, token, taso):
+        current_time = time.time()
+
+        # Check if the button can be pressed based on time elapsed
+        if current_time - self.last_press_time >= 3:
+            self.last_press_time = current_time
+            self.press_count = 1
+            print("Äänestetään!")
+            self.aanesta(url, token, taso)
+
+        else:
+            # Increment press count if within the time window
+            self.press_count += 1
+            if self.press_count > 5:
+                print("Exceeded maximum presses. Sleeping for 10 seconds")
+                time.sleep(10)
+                self.last_press_time = time.time()
+                self.press_count = 0
+            else:
+                print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
+
+
+    def aanesta(url, token, taso):
         headers = {'Authorization': 'Bearer ' + token}
         response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
@@ -24,25 +49,26 @@ def aanesta(url, token, taso):
         
         if(response.status_code == 200):
             print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
-    else:
-        print(f'Cooldownia jäljellä {cooldown}s')
+
+
 
 
 def main(url, token):
    
     #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
 
+    handler = ButtonPressHandler()
     red_button = Button(6)
-    red_button.when_pressed = lambda: aanesta(url, token, 1)
+    red_button.when_pressed = lambda: handler.handle_button_press(url, token, 1)
 
     light_red_button = Button(13)
-    light_red_button.when_pressed = lambda: aanesta(url, token, 2)
+    light_red_button.when_pressed = lambda: handler.handle_button_press(url, token, 2)
 
     light_green_button = Button(19)
-    light_green_button.when_pressed = lambda: aanesta(url, token, 3)
+    light_green_button.when_pressed = lambda: handler.handle_button_press(url, token, 3)
 
     green_button = Button(26)
-    green_button.when_pressed = lambda: aanesta(url, token, 4)
+    green_button.when_pressed = lambda: handler.handle_button_press(url, token, 4)
 
     pause()
 
