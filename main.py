@@ -25,7 +25,7 @@ class ButtonPressHandler:
         if current_time - self.last_press_time >= 3:
             self.last_press_time = current_time
             self.press_count = 1
-            print("Äänestetään!")
+            print("Äänestetään! taso:" + str(taso))
             try:
                 self.aanesta(url, token, taso)
             except Exception as ex:
@@ -41,6 +41,7 @@ class ButtonPressHandler:
                 self.press_count = 0
             else:
                 print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
+        sleep(0.8)
 
 
     def aanesta(self, url, token, taso):
