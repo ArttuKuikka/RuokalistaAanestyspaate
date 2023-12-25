@@ -1,21 +1,38 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 from time import sleep
+from gpiozero import LED
+from gpiozero import Button
+from signal import pause
 
 hostName = "0.0.0.0"
 serverPort = 80
 taso_lock = threading.Lock()
 taso1, taso2, taso3, taso4 = 0, 0, 0, 0
 
+def setLed(r, g, b, duration):
+    red_led = LED(2, active_high=False)
+    green_led = LED(3, active_high=False)
+    blue_led = LED(4, active_high=False)
+    try:
+        red_led.value = r
+        green_led.value = g
+        blue_led.value = b
+        sleep(duration)
+    finally:
+        red_led.close()
+        green_led.close()
+        blue_led.close()
+
 def changeLed(path: str):
     c = path[path.__len__() - 1]
     print("led is now " + str(c))
     if c == 'R':
-        print("TODO")
+        setLed(1, 0, 0, 2)
     elif c == 'G':
-        print("TODO")
+        setLed(0, 1, 0, 2)
     elif c == 'C':
-        print("TODO")
+        setLed(0, 0, 1, 2)
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -53,19 +70,18 @@ class MyServer(BaseHTTPRequestHandler):
 
 def main(url, token):
      #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
-    from gpiozero import Button
-    from signal import pause
-    red_button = Button(6)
-    red_button.when_pressed = lambda: aanesta(url, token, 1)
+    
+    red_button = Button(6, hold_time=0.05)
+    red_button.when_held = lambda: aanesta(url, token, 1)
 
-    light_red_button = Button(13)
-    light_red_button.when_pressed = lambda: aanesta(url, token, 2)
+    light_red_button = Button(13, hold_time=0.05)
+    light_red_button.when_held = lambda: aanesta(url, token, 2)
 
-    light_green_button = Button(19)
-    light_green_button.when_pressed = lambda: aanesta(url, token, 3)
+    light_green_button = Button(19, hold_time=0.05)
+    light_green_button.when_held = lambda: aanesta(url, token, 3)
 
-    green_button = Button(26)
-    green_button.when_pressed = lambda: aanesta(url, token, 4)
+    green_button = Button(26, hold_time=0.05)
+    green_button.when_held = lambda: aanesta(url, token, 4)
 
     pause()
 
