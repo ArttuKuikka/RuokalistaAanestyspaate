@@ -5,6 +5,7 @@ import sys
 import datetime
 from os.path import exists
 from gpiozero import Button
+from gpiozero import LED
 from signal import pause
 from discord_webhook import DiscordWebhook
 from time import sleep
@@ -12,44 +13,58 @@ import time
 
 useSsl = True
 
-class ButtonPressHandler:
-    def __init__(self):
-        self.last_press_time = 0
-        self.press_count = 0
-        self.isSleeping = False
+last_press_time = 0
+press_count = 0
+isSleeping = False
 
-    def handle_button_press(self, url, token, taso):
+def setLed(r, g, b, duration):
+    red_led = LED(2, active_high=False)
+    green_led = LED(3, active_high=False)
+    blue_led = LED(4, active_high=False)
+    try:
+        red_led.value = r
+        green_led.value = g
+        blue_led.value = b
+        sleep(duration)
+    finally:
+        red_led.close()
+        green_led.close()
+        blue_led.close()
+        
+
+
+def handle_button_press(url, token, taso):
         current_time = time.time()
             
             # Check if the button can be pressed based on time elapsed
-        if current_time - self.last_press_time >= 3 and not self.isSleeping:
-            self.last_press_time = current_time
-            self.press_count = 1
+        if current_time - last_press_time >= 3 and not isSleeping:
+            last_press_time = current_time
+            press_count = 1
             print("Äänestetään! taso:" + str(taso))
-                #POISTA TRY TAI LAITA NIIN ETTÄ MENEE DISCORDIIN ERROR
             try:
-                self.aanesta(url, token, taso)
+                aanesta(url, token, taso)
+                setLed(0, 1, 0, 0.5)
             except Exception as ex:
                 print("Äänestys error: " + str(ex))
                 webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
                 webhook.execute()
+                setLed(1, 0, 0, 1)
 
         else:
                 # Increment press count if within the time window
-            self.press_count += 1
-            if self.press_count > 4:
+            press_count += 1
+            if press_count > 4:
                 print("Exceeded maximum presses. Sleeping for 10 seconds")
-                self.isSleeping = True
+                isSleeping = True
                 time.sleep(10)
-                self.isSleeping = False
-                self.last_press_time = time.time()
-                self.press_count = 0
+                isSleeping = False
+                last_press_time = time.time()
+                press_count = 0
             else:
-                print(f"Button press ignored. Try again after {3 - (current_time - self.last_press_time):.2f} seconds")
+                print(f"Button press ignored. Try again after {3 - (current_time - last_press_time):.2f} seconds")
         
 
-
-    def aanesta(self, url, token, taso):
+def aanesta(url, token, taso):
         headers = {'Authorization': 'Bearer ' + token}
         response = requests.post(url + "?taso=" + str(taso), headers=headers, verify=useSsl)
 
@@ -62,22 +77,24 @@ class ButtonPressHandler:
 
 
 
+
+
 def main(url, token):
    
     #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
 
-    handler = ButtonPressHandler()
+    
     red_button = Button(6, hold_time=0.05)
-    red_button.when_held = lambda: handler.handle_button_press(url, token, 1)
+    red_button.when_held = lambda: handle_button_press(url, token, 1)
 
     light_red_button = Button(13, hold_time=0.05)
-    light_red_button.when_held = lambda: handler.handle_button_press(url, token, 2)
+    light_red_button.when_held = lambda: handle_button_press(url, token, 2)
 
     light_green_button = Button(19, hold_time=0.05)
-    light_green_button.when_held = lambda: handler.handle_button_press(url, token, 3)
+    light_green_button.when_held = lambda: handle_button_press(url, token, 3)
 
     green_button = Button(26, hold_time=0.05)
-    green_button.when_held = lambda: handler.handle_button_press(url, token, 4)
+    green_button.when_held = lambda: handle_button_press(url, token, 4)
 
     pause()
 
@@ -108,3 +125,4 @@ if __name__ == "__main__":
         print("error: " + str(e))
         webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main): " + str(e))
         webhook.execute()
+        setLed(1, 0, 0, 5)
