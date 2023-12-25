@@ -29,6 +29,7 @@ class ButtonPressHandler:
                 self.last_press_time = current_time
                 self.press_count = 1
                 print("Äänestetään! taso:" + str(taso))
+                #POISTA TRY TAI LAITA NIIN ETTÄ MENEE DISCORDIIN ERROR
                 try:
                     self.aanesta(url, token, taso)
                 except Exception as ex:
@@ -67,17 +68,17 @@ def main(url, token):
     #pinnit numeroitu Broadcom järjestelmällä, lisää https://gpiozero.readthedocs.io/en/stable/recipes.html#pin-numbering
 
     handler = ButtonPressHandler()
-    red_button = Button(6)
-    red_button.when_pressed = lambda: handler.handle_button_press(url, token, 1)
+    red_button = Button(6, hold_time=0.05)
+    red_button.when_held = lambda: handler.handle_button_press(url, token, 1)
 
-    light_red_button = Button(13)
-    light_red_button.when_pressed = lambda: handler.handle_button_press(url, token, 2)
+    light_red_button = Button(13, hold_time=0.05)
+    light_red_button.when_held = lambda: handler.handle_button_press(url, token, 2)
 
-    light_green_button = Button(19)
-    light_green_button.when_pressed = lambda: handler.handle_button_press(url, token, 3)
+    light_green_button = Button(19, hold_time=0.05)
+    light_green_button.when_held = lambda: handler.handle_button_press(url, token, 3)
 
-    green_button = Button(26)
-    green_button.when_pressed = lambda: handler.handle_button_press(url, token, 4)
+    green_button = Button(26, hold_time=0.05)
+    green_button.when_held = lambda: handler.handle_button_press(url, token, 4)
 
     pause()
 
