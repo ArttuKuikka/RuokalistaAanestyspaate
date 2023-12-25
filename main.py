@@ -31,6 +31,8 @@ class ButtonPressHandler:
                 self.aanesta(url, token, taso)
             except Exception as ex:
                 print("Äänestys error: " + str(ex))
+                webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
+                webhook.execute()
 
         else:
                 # Increment press count if within the time window
