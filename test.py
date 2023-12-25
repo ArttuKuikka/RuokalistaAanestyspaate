@@ -31,7 +31,7 @@ def changeLed(path: str):
         setLed(1, 0, 0, 2)
     elif c == 'G':
         setLed(0, 1, 0, 2)
-    elif c == 'C':
+    elif c == 'B':
         setLed(0, 0, 1, 2)
 
 class MyServer(BaseHTTPRequestHandler):
