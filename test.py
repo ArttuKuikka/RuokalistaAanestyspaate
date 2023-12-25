@@ -6,7 +6,7 @@ from gpiozero import Button
 from signal import pause
 
 hostName = "0.0.0.0"
-serverPort = 80
+serverPort = 8080
 taso_lock = threading.Lock()
 taso1, taso2, taso3, taso4 = 0, 0, 0, 0
 
