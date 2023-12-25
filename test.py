@@ -103,13 +103,6 @@ if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
-    try:
-        import netifaces as ni
-        ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
-        print("ip of wlan0 is " + str(ip))
-    except Exception:
-        print("wlan0 is not accessable")
-
     # Create a new thread for the webserver function
     webserver_thread = threading.Thread(target=webServer.serve_forever)
 
