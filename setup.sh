@@ -54,7 +54,7 @@ Description=ruokalista-aanestyspaate
 
 [Service]
 WorkingDirectory=${current_directory}
-ExecStart=python3 ${current_directory}/main.py
+ExecStart=python3 -u ${current_directory}/main.py
 Restart=on-failure
 RestartSec=100
 
