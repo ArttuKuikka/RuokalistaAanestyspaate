@@ -16,6 +16,7 @@ useSsl = True
 last_press_time = 0
 press_count = 0
 isSleeping = False
+globalConfig = ""
 
 def setLed(r, g, b, duration):
     red_led = LED(2, active_high=False)
@@ -32,7 +33,15 @@ def setLed(r, g, b, duration):
         blue_led.close()
         
 def checkIfInTimeFrame():
-    return True
+    if(globalConfig["RegisterVotesOnlyInTimeFrame"]):
+        StartAcceptingVotesTime = datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
+        StopAcceptiongVotesTime = datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
+        if(datetime.datetime.now > StartAcceptingVotesTime and datetime.datetime.now < StopAcceptiongVotesTime):
+            return True
+        else:
+            return False
+    else:
+        return True
 
 def handle_button_press(url, token, taso):
         if(checkIfInTimeFrame()):
@@ -121,6 +130,7 @@ if __name__ == "__main__":
 
     webhookurl = config["webhook_url"]
     useSsl = config["use_ssl"]
+    globalConfig = config
 
     try:
         äänestys_url = str(config["base_url"]) + str(config["aanestys_url"])
