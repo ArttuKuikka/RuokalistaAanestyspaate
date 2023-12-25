@@ -16,12 +16,13 @@ class ButtonPressHandler:
     def __init__(self):
         self.last_press_time = 0
         self.press_count = 0
+        self.isSleeping = False
 
     def handle_button_press(self, url, token, taso):
         current_time = time.time()
             
             # Check if the button can be pressed based on time elapsed
-        if current_time - self.last_press_time >= 3:
+        if current_time - self.last_press_time >= 3 and not self.isSleeping:
             self.last_press_time = current_time
             self.press_count = 1
             print("Äänestetään! taso:" + str(taso))
@@ -36,7 +37,9 @@ class ButtonPressHandler:
             self.press_count += 1
             if self.press_count > 4:
                 print("Exceeded maximum presses. Sleeping for 10 seconds")
+                self.isSleeping = True
                 time.sleep(10)
+                self.isSleeping = False
                 self.last_press_time = time.time()
                 self.press_count = 0
             else:
