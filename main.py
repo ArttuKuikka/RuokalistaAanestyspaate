@@ -2,7 +2,7 @@
 import requests
 import json
 import sys
-import datetime
+from datetime import datetime, time
 from os.path import exists
 from gpiozero import Button
 from gpiozero import LED
@@ -34,9 +34,9 @@ def setLed(r, g, b, duration):
         
 def checkIfInTimeFrame():
     if(globalConfig["RegisterVotesOnlyInTimeFrame"]):
-        StartAcceptingVotesTime = datetime.datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
-        StopAcceptiongVotesTime = datetime.datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
-        if(datetime.datetime.now > StartAcceptingVotesTime and datetime.datetime.now < StopAcceptiongVotesTime):
+        StartAcceptingVotesTime = datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
+        StopAcceptiongVotesTime = datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
+        if(datetime.now.time() > StartAcceptingVotesTime.time() and datetime.now.time() < StopAcceptiongVotesTime.time()):
             return True
         else:
             return False
@@ -87,7 +87,7 @@ def aanesta(url, token, taso):
             raise Exception(f"HTTP status code exception: code {str(response.status_code)}. response: {str(response.content)}")
         
         if(response.status_code == 200):
-            print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.datetime.now())})" )
+            print(f"äänestys onnistui: code:{str(response.status_code)}, taso:{taso}  ({str(datetime.now())})" )
 
 
 
