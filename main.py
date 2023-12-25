@@ -31,38 +31,42 @@ def setLed(r, g, b, duration):
         green_led.close()
         blue_led.close()
         
-
+def checkIfInTimeFrame():
+    return True
 
 def handle_button_press(url, token, taso):
-        global last_press_time, press_count, isSleeping
-        current_time = time.time()
-            
+        if(checkIfInTimeFrame()):
+            current_time = time.time()
+                
             # Check if the button can be pressed based on time elapsed
-        if current_time - last_press_time >= 1.5 and not isSleeping:
-            last_press_time = current_time
-            press_count = 1
-            print("Äänestetään! taso:" + str(taso))
-            try:
-                aanesta(url, token, taso)
-                setLed(0, 1, 0, 0.5)
-            except Exception as ex:
-                print("Äänestys error: " + str(ex))
-                webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
-                webhook.execute()
-                setLed(1, 0, 0, 1)
+            if current_time - last_press_time >= 1.5 and not isSleeping:
+                last_press_time = current_time
+                press_count = 1
+                print("Äänestetään! taso:" + str(taso))
+                try:
+                    aanesta(url, token, taso)
+                    setLed(0, 1, 0, 0.5)
+                except Exception as ex:
+                    print("Äänestys error: " + str(ex))
+                    webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
+                    webhook.execute()
+                    setLed(1, 0, 0, 1)
 
-        else:
-                # Increment press count if within the time window
-            press_count += 1
-            if press_count > 4:
-                print("Exceeded maximum presses. Sleeping for 10 seconds")
-                isSleeping = True
-                time.sleep(10)
-                isSleeping = False
-                last_press_time = time.time()
-                press_count = 0
             else:
-                print(f"Button press ignored. Try again after {3 - (current_time - last_press_time):.2f} seconds")
+                # Increment press count if within the time window
+                press_count += 1
+                if press_count > 3:
+                    print("Exceeded maximum presses. Sleeping for 10 seconds")
+                    isSleeping = True
+                    time.sleep(10)
+                    isSleeping = False
+                    last_press_time = time.time()
+                    press_count = 0
+                else:
+                    print(f"Button press ignored. Try again after {3 - (current_time - last_press_time):.2f} seconds")
+        else:
+            print("Not in timeframe")
+            setLed(1,0,0,1)
         
 
 def aanesta(url, token, taso):

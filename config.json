@@ -6,5 +6,7 @@
     "user": "",
     "password": "",
     "Token": "",
-    "uptimeKumaUrl": ""
+    "uptimeKumaUrl": "",
+    "StartAcceptingVotesTime": "10.00",
+    "StopAcceptiongVotesTime": "12.50"
 }
