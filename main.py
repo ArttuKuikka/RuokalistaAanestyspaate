@@ -36,6 +36,7 @@ def checkIfInTimeFrame():
 
 def handle_button_press(url, token, taso):
         if(checkIfInTimeFrame()):
+            global last_press_time, press_count, isSleeping
             current_time = time.time()
                 
             # Check if the button can be pressed based on time elapsed
