@@ -36,7 +36,7 @@ def checkIfInTimeFrame():
     if(globalConfig["RegisterVotesOnlyInTimeFrame"]):
         StartAcceptingVotesTime = datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
         StopAcceptiongVotesTime = datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
-        if(datetime.now.time() > StartAcceptingVotesTime.time() and datetime.now.time() < StopAcceptiongVotesTime.time()):
+        if(datetime.now().time() > StartAcceptingVotesTime.time() and datetime.now().time() < StopAcceptiongVotesTime.time()):
             return True
         else:
             return False
