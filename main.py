@@ -38,7 +38,7 @@ def handle_button_press(url, token, taso):
         current_time = time.time()
             
             # Check if the button can be pressed based on time elapsed
-        if current_time - last_press_time >= 2.5 and not isSleeping:
+        if current_time - last_press_time >= 1.5 and not isSleeping:
             last_press_time = current_time
             press_count = 1
             print("Äänestetään! taso:" + str(taso))
