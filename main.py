@@ -34,8 +34,8 @@ def setLed(r, g, b, duration):
         
 def checkIfInTimeFrame():
     if(globalConfig["RegisterVotesOnlyInTimeFrame"]):
-        StartAcceptingVotesTime = datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
-        StopAcceptiongVotesTime = datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
+        StartAcceptingVotesTime = datetime.datetime.strptime(globalConfig["StartAcceptingVotesTime"], '%H.%M') 
+        StopAcceptiongVotesTime = datetime.datetime.strptime(globalConfig["StopAcceptiongVotesTime"], '%H.%M') 
         if(datetime.datetime.now > StartAcceptingVotesTime and datetime.datetime.now < StopAcceptiongVotesTime):
             return True
         else:
