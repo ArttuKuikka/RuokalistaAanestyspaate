@@ -1,5 +1,5 @@
 #!/bin/bash
-#TODO: restart service
+
 
 # Path to the Python script
 python_script_path=$(pwd)
@@ -12,3 +12,5 @@ crontab mycron
 
 # Clean up temporary file
 rm mycron
+
+sudo systemctl restart ruokalista-aanestyspaate.service

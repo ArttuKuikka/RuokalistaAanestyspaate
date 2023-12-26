@@ -76,6 +76,8 @@ echo "Adding updateToken cronjob"
 ./addUpdateTokenCronjob.sh
 echo "Adding Uptime cronjob"
 ./addUptimeCronjob.sh
+echo "Adding Service restart cronjob"
+./addServiceRestartCronjob.sh
 
 
 #add permissions for everyone to start and stop the service
