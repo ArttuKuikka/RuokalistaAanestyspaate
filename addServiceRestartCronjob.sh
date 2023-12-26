@@ -1,10 +1,14 @@
 #!/bin/bash
 
-# Add the script to crontab to run every week (on Sundays at midnight)
-echo "0 12 * * * sudo systemctl restart ruokalista-aanestyspaate.service" >> mycron
+# Create a temporary file
+temp_file=$(mktemp)
 
-# Load the updated crontab
-crontab mycron
+# Add the new job entry to the temporary file
+echo "0 12 * * * sudo systemctl restart ruokalista-aanestyspaate.service" > "$temp_file"
+
+# Append the content of the temporary file to the current crontab
+crontab -l >> "$temp_file"
+crontab "$temp_file"
 
 # Clean up temporary file
-rm mycron
+rm "$temp_file"

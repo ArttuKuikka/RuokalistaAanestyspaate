@@ -1,16 +1,22 @@
 #!/bin/bash
 
-
 # Path to the Python script
 python_script_path=$(pwd)
 
-# Add the script to crontab to run every week (on Sundays at midnight)
-echo "0 0 * * 0 cd $python_script_path && python3 $python_script_path/updateToken.py" >> mycron
+# Create a temporary file
+temp_file=$(mktemp)
 
-# Load the updated crontab
-crontab mycron
+# Add the new job entry to the temporary file
+echo "0 0 * * 0 cd $python_script_path && python3 $python_script_path/updateToken.py" > "$temp_file"
+
+# Append the content of the existing crontab to the temporary file
+crontab -l >> "$temp_file"
+
+# Load the updated crontab from the temporary file
+crontab "$temp_file"
 
 # Clean up temporary file
-rm mycron
+rm "$temp_file"
 
+# Restart the service
 sudo systemctl restart ruokalista-aanestyspaate.service
