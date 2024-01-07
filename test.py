@@ -40,8 +40,6 @@ class MyServer(BaseHTTPRequestHandler):
 
         if self.path.startswith("/led"):
             changeLed(self.path)
-        elif self.path.startswith("/stop"):
-            exit()
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
@@ -65,8 +63,6 @@ class MyServer(BaseHTTPRequestHandler):
         <button onclick="location.href = '/led?c=R';" id="myButton1" class="float-left submit-button" >LED RED</button>
         <button onclick="location.href = '/led?c=G';" id="myButton1" class="float-left submit-button" >LED GREEN</button>
         <button onclick="location.href = '/led?c=B';" id="myButton1" class="float-left submit-button" >LED BLUE</button>
-        <br>
-        <button onclick="location.href = '/stop';" id="myButton1" class="float-left submit-button" >STOP TEST</button>
 
 
         """, "utf-8"))
