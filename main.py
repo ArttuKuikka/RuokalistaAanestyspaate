@@ -101,11 +101,11 @@ def main(url, token):
     red_button = Button(6, hold_time=0.05)
     red_button.when_held = lambda: handle_button_press(url, token, 1)
 
-    light_red_button = Button(13, hold_time=0.05)
-    light_red_button.when_held = lambda: handle_button_press(url, token, 2)
+    orange_button = Button(13, hold_time=0.05)
+    orange_button.when_held = lambda: handle_button_press(url, token, 2)
 
-    light_green_button = Button(19, hold_time=0.05)
-    light_green_button.when_held = lambda: handle_button_press(url, token, 3)
+    yellow_button = Button(19, hold_time=0.05)
+    yellow_button.when_held = lambda: handle_button_press(url, token, 3)
 
     green_button = Button(26, hold_time=0.05)
     green_button.when_held = lambda: handle_button_press(url, token, 4)

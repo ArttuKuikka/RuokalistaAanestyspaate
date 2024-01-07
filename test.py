@@ -40,6 +40,8 @@ class MyServer(BaseHTTPRequestHandler):
 
         if self.path.startswith("/led"):
             changeLed(self.path)
+        elif self.path.startswith("/stop"):
+            exit()
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
@@ -51,10 +53,10 @@ class MyServer(BaseHTTPRequestHandler):
         Punainen (taso1) = {taso1}
         </h2>
          <h2>
-        vaalean punainen (taso2) = {taso2}
+        oranssi (taso2) = {taso2}
         </h2>
          <h2>
-        vaalean vihreä (taso3) = {taso3}
+        keltainen (taso3) = {taso3}
         </h2>
          <h2>
         vihreä (taso4) = {taso4}
@@ -63,6 +65,8 @@ class MyServer(BaseHTTPRequestHandler):
         <button onclick="location.href = '/led?c=R';" id="myButton1" class="float-left submit-button" >LED RED</button>
         <button onclick="location.href = '/led?c=G';" id="myButton1" class="float-left submit-button" >LED GREEN</button>
         <button onclick="location.href = '/led?c=B';" id="myButton1" class="float-left submit-button" >LED BLUE</button>
+        <br>
+        <button onclick="location.href = '/stop';" id="myButton1" class="float-left submit-button" >STOP TEST</button>
 
 
         """, "utf-8"))
@@ -74,11 +78,11 @@ def main(url, token):
     red_button = Button(6, hold_time=0.05)
     red_button.when_held = lambda: aanesta(url, token, 1)
 
-    light_red_button = Button(13, hold_time=0.05)
-    light_red_button.when_held = lambda: aanesta(url, token, 2)
+    orange_button = Button(13, hold_time=0.05)
+    orange_button.when_held = lambda: aanesta(url, token, 2)
 
-    light_green_button = Button(19, hold_time=0.05)
-    light_green_button.when_held = lambda: aanesta(url, token, 3)
+    yellow_button = Button(19, hold_time=0.05)
+    yellow_button.when_held = lambda: aanesta(url, token, 3)
 
     green_button = Button(26, hold_time=0.05)
     green_button.when_held = lambda: aanesta(url, token, 4)
