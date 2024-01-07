@@ -55,7 +55,6 @@ def handle_button_press(url, token, taso):
                 print("Äänestetään! taso:" + str(taso))
                 try:
                     aanesta(url, token, taso)
-                    setLed(0, 1, 0, 0.5)
                 except Exception as ex:
                     print("Äänestys error: " + str(ex))
                     webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
