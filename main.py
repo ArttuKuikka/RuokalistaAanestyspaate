@@ -17,20 +17,26 @@ last_press_time = 0
 press_count = 0
 isSleeping = False
 globalConfig = ""
+ledTurnedOn = False
 
 def setLed(r, g, b, duration):
     red_led = LED(2, active_high=False)
     green_led = LED(3, active_high=False)
     blue_led = LED(4, active_high=False)
-    try:
-        red_led.value = r
-        green_led.value = g
-        blue_led.value = b
-        sleep(duration)
-    finally:
-        red_led.close()
-        green_led.close()
-        blue_led.close()
+
+    global ledTurnedOn
+    if(not ledTurnedOn):
+        try:
+            ledTurnedOn = True
+            red_led.value = r
+            green_led.value = g
+            blue_led.value = b
+            sleep(duration)
+        finally:
+            red_led.close()
+            green_led.close()
+            blue_led.close()
+            ledTurnedOn = False
         
 def checkIfInTimeFrame():
     if(globalConfig["RegisterVotesOnlyInTimeFrame"]):
