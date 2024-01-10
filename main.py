@@ -65,9 +65,9 @@ def handle_button_press(url, token, taso):
                 # Increment press count if within the time window
                 press_count += 1
                 if press_count > 3:
-                    print("Exceeded maximum presses. Sleeping for 10 seconds")
+                    print("Exceeded maximum presses. Sleeping for 5 seconds")
                     isSleeping = True
-                    time.sleep(10)
+                    time.sleep(5)
                     isSleeping = False
                     last_press_time = time.time()
                     press_count = 0
