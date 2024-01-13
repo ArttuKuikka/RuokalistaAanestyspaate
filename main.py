@@ -32,6 +32,8 @@ def setLed(r, g, b, duration):
             green_led.value = g
             blue_led.value = b
             sleep(duration)
+        except gpiozero.exc.GPIOPinInUse:
+            print('GPIO in use already')
         finally:
             red_led.close()
             green_led.close()
