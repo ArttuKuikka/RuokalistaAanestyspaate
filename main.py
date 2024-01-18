@@ -19,10 +19,12 @@ isSleeping = False
 globalConfig = ""
 ledTurnedOn = False
 
+red_led = LED(2, active_high=False)
+green_led = LED(3, active_high=False)
+blue_led = LED(4, active_high=False)
+
+
 def setLed(r, g, b, duration):
-    red_led = LED(2, active_high=False)
-    green_led = LED(3, active_high=False)
-    blue_led = LED(4, active_high=False)
 
     global ledTurnedOn
     if(not ledTurnedOn):
@@ -35,9 +37,9 @@ def setLed(r, g, b, duration):
         except gpiozero.exc.GPIOPinInUse:
             print('GPIO in use already')
         finally:
-            red_led.close()
-            green_led.close()
-            blue_led.close()
+            #red_led.close()
+            #green_led.close()
+            #blue_led.close()
             ledTurnedOn = False
         
 def checkIfInTimeFrame():
