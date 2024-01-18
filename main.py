@@ -37,9 +37,9 @@ def setLed(r, g, b, duration):
         except gpiozero.exc.GPIOPinInUse:
             print('GPIO in use already')
         finally:
-            #red_led.close()
-            #green_led.close()
-            #blue_led.close()
+            red_led.value = 0
+            green_led.value = 0
+            blue_led.value = 0
             ledTurnedOn = False
         
 def checkIfInTimeFrame():
