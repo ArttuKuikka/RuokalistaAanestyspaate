@@ -23,6 +23,8 @@ red_led = LED(2, active_high=False)
 green_led = LED(3, active_high=False)
 blue_led = LED(4, active_high=False)
 
+count_file_path = 'statistics.txt'
+
 
 def setLed(r, g, b, duration):
 
@@ -54,10 +56,13 @@ def checkIfInTimeFrame():
         return True
 
 def handle_button_press(url, token, taso):
+        #log the amount the button has been pressed and tried to be pressed
+        LogStatistics(2)
+
         if(checkIfInTimeFrame()):
             global last_press_time, press_count, isSleeping
             current_time = time.time()
-                
+
             # Check if the button can be pressed based on time elapsed
             if current_time - last_press_time >= 1.5 and not isSleeping:
                 last_press_time = current_time
@@ -65,10 +70,10 @@ def handle_button_press(url, token, taso):
                 print("Äänestetään! taso:" + str(taso))
                 try:
                     aanesta(url, token, taso)
+                    LogStatistics(1)
                 except Exception as ex:
                     print("Äänestys error: " + str(ex))
-                    webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main)(http): " + str(ex))
-                    webhook.execute()
+                    CreateWebhookException(str(ex))
                     setLed(1, 0, 0, 1)
 
             else:
@@ -122,8 +127,50 @@ def main(url, token):
 
     pause()
 
+
+def LogStatistics(type):
+    #log the amount the button has been pressed and tried to be pressed
+    #Type 1 = button was pressed and vote was cast (count succesfull button presses)
+    #type 2 = button was pressed (count all buttons presses)
+
+    if not exists(count_file_path):
+        with open(count_file_path, 'w') as file:
+            file.write("0;0")
+            file.close()
+
+    with open(count_file_path, 'r') as file:
+        file_content = file.read().strip()
+        numbers = file_content.split(';')
+        type1number = numbers[0]
+        type2number = numbers[1]
+
+        if(type == 1):
+            type1number += 1
+        if(type == 2):
+            type2number += 1
+        
+        with open(count_file_path, 'w') as file2:
+            file2.write(str(type1number) + ';' + str(type2number))
+            file.close()
+            file2.close()
+
+
+
+def CreateWebhookException(msg):
+
+    message = truncate_string(msg, 1800)
+    webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main): " + message)
+    webhook.execute()
     
    
+def truncate_string(input_string, max_length):
+    if len(input_string) > max_length:
+        # Truncate the string if it's longer than the specified maximum length
+        truncated_string = input_string[:max_length]
+        return truncated_string
+    else:
+        # Return the original string if it's within the maximum length
+        return input_string
 
 
 
@@ -148,6 +195,5 @@ if __name__ == "__main__":
     
     except Exception as e:
         print("error: " + str(e))
-        webhook = DiscordWebhook(url=config["webhook_url"], content="äänestyslaatikko error (main): " + str(e))
-        webhook.execute()
+        CreateWebhookException(str(e))
         setLed(1, 0, 0, 5)
