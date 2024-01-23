@@ -141,8 +141,8 @@ def LogStatistics(type):
     with open(count_file_path, 'r') as file:
         file_content = file.read().strip()
         numbers = file_content.split(';')
-        type1number = numbers[0]
-        type2number = numbers[1]
+        type1number = int(numbers[0])
+        type2number = int(numbers[1])
 
         if(type == 1):
             type1number += 1
